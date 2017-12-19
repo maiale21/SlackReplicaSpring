@@ -14,6 +14,7 @@ import java.util.List;
 
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class MessageController {
 
     @Autowired
@@ -26,7 +27,7 @@ public class MessageController {
     }
 
     @GetMapping("/messages/{messageId}")
-    public ResponseEntity<?> getMessageById(@PathVariable Integer messageId){
+    public ResponseEntity<?> getMessageById(@PathVariable Long messageId){
         Message messageById =  messageService.getMessageById(messageId);
         if (messageById == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -41,7 +42,7 @@ public class MessageController {
         HttpHeaders responseHeaders = new HttpHeaders();
         URI newMessageUri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(message.getId())
+                .buildAndExpand(message.getMessageId())
                 .toUri();
         responseHeaders.setLocation(newMessageUri);
 
@@ -50,7 +51,7 @@ public class MessageController {
     }
 
     @DeleteMapping("/messages/{messageId}")
-    public ResponseEntity<Void> deletingMessage(@PathVariable Integer messageId){
+    public ResponseEntity<Void> deletingMessage(@PathVariable Long messageId){
         messageService.deleteMessage(messageId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

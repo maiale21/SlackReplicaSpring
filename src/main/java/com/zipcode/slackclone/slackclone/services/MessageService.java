@@ -16,15 +16,14 @@ public class MessageService {
 
     public List<Message> getAllMessages(){
         return messageRepository.findAll();
-
     }
 
-    public Message getMessageById(Integer messageId){
+    public Message getMessageById(Long messageId){
         return messageRepository.findOne(messageId);
     }
 
-    public Message addMessage(String fromUser, String toUser, String messageContent){
-        return addMessage(new Message(fromUser, toUser, messageContent));
+    public Message addMessage(String fromUser, Long toChat, String messageContent){
+        return addMessage(new Message(fromUser, toChat, messageContent));
     }
 
     public Message addMessage(String fromUser, String messageContent){
@@ -35,12 +34,12 @@ public class MessageService {
        return messageRepository.save(message);
     }
 
-    public void updateMessage(Integer messageId, String updatedMessage){
+    public void updateMessage(Long messageId, String updatedMessage){
         getMessageById(messageId).setMessageContent(updatedMessage);
 
     }
 
-    public void deleteMessage(Integer messageId){
+    public void deleteMessage(Long messageId){
         messageRepository.delete(getMessageById(messageId));
 
     }
