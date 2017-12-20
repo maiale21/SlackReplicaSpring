@@ -15,24 +15,26 @@ public class UserService {
     @Inject
     private UserRepository userRepository;
 
-    public List<User> getAllUsers(){
-        return userRepository.findAll();
-
-    }
+    public List<User> getAllUsers(){ return userRepository.findAll(); }
 
     public User getUserByUserName(String userName){
         return userRepository.findOne(userName);
     }
 
-    public void createUser(String userName, String password, String email){
-        User user = new User(userName, password, email);
-        userRepository.save(user);
+    public boolean checkUserNameExists(User userNameToCheck){
+        for(User user: userRepository.findAll()){
+            if(userNameToCheck.getUserName().equalsIgnoreCase(user.getUserName()))
+                return true;
+        }
+        return false;
     }
 
-//    public void addMessage(User fromUser, String messageContent){
-//        Message message = new Message(fromUser, messageContent);
-//       userRepository.save(message);
-//    }
+    public User addUser(User user){
+        if(checkUserNameExists(user)) return null;
+            userRepository.save(user);
+        return user;
+    }
+
 
     public boolean updateUser(String userName, User newUser){
         User tempUser = getUserByUserName(userName);
@@ -42,8 +44,11 @@ public class UserService {
         }return false;
     }
 
-    public void deleteUser(String userName){
-        userRepository.delete(userName);
-
+    public boolean deleteUser(String userName){
+        if(checkUserNameExists(getUserByUserName(userName))) {
+            userRepository.delete(userName);
+            return true;
+        }
+        return false;
     }
 }
