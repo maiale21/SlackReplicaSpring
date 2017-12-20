@@ -36,8 +36,8 @@ public class MessageControllerTest {
 
     @MockBean
     private MessageService messageService;
-    private Message mockMessage = new Message("Steve", "Rick", "Fart");
-    private String messageJSON = "{\"id\":null,\"messageContent\":\"Fart\",\"timeStamp\":null,\"fromUser\":\"Steve\",\"toUser\":\"Rick\"}";
+    private Message mockMessage = new Message("Steve", new Long(0), "Fart");
+    private String messageJSON = "{\"messageId\":null,\"messageContent\":\"Fart\",\"timeStamp\":null,\"fromUser\":\"Steve\",\"chatId\":0}";
 
     @Before
     public void setUp(){
@@ -54,7 +54,7 @@ public class MessageControllerTest {
 
     @Test
     public void testGetMessage() throws Exception {
-        when(messageService.getMessageById(Mockito.anyInt())).thenReturn(mockMessage);
+        when(messageService.getMessageById(Mockito.anyLong())).thenReturn(mockMessage);
         mockMvc.perform(MockMvcRequestBuilders.get("/messages/1")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(content().string(messageJSON));
@@ -83,6 +83,10 @@ public class MessageControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
+    }
+
+    @Test
+    public void testUpdateMessage() throws Exception {
 
     }
 
