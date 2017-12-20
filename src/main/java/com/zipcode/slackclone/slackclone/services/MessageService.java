@@ -34,8 +34,9 @@ public class MessageService {
        return messageRepository.save(message);
     }
 
-    public void updateMessage(Long messageId, String updatedMessage){
-        getMessageById(messageId).setMessageContent(updatedMessage);
+    public void updateMessage(Message updatedMessage){
+//        getMessageById(messageId).setMessageContent(updatedMessage);
+        messageRepository.save(updatedMessage);
 
     }
 

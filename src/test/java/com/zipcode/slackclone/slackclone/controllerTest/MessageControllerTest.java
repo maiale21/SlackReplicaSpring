@@ -83,6 +83,10 @@ public class MessageControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
+    }
+
+    @Test
+    public void testUpdateMessage() throws Exception {
 
     }
 
