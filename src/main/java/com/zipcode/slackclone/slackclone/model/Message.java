@@ -11,7 +11,7 @@ public class Message {
     @Id
     @GeneratedValue
     @Column(name = "MESSAGE_ID")
-    private Integer id;
+    private Long messageId;
 
     @Column(name = "CONTENT")
     private String messageContent;
@@ -22,8 +22,8 @@ public class Message {
     @Column(name = "FROM_USER")
     private String fromUser;
 
-    @Column(name = "TO_USER")
-    private String toUser;
+    @Column(name = "TO_CHAT")
+    private Long chatId;
 
     public Message(){
 
@@ -33,9 +33,9 @@ public class Message {
         this.messageContent = messageContent;
     }
 
-    public Message(String fromUser, String toUser, String messageContent) {
+    public Message(String fromUser, Long chatId, String messageContent) {
         this.fromUser = fromUser;
-        this.toUser = toUser;
+        this.chatId = chatId;
         this.messageContent = messageContent;
     }
 
@@ -44,8 +44,8 @@ public class Message {
         this.messageContent = messageContent;
     }
 
-    public Integer getId() {
-        return id;
+    public Long getMessageId() {
+        return messageId;
     }
 
     public String getMessageContent() {
@@ -60,8 +60,8 @@ public class Message {
         return fromUser;
     }
 
-    public String getToUser() {
-        return toUser;
+    public Long getChatId() {
+        return chatId;
     }
 
     public void setMessageContent(String messageContent) {
@@ -75,7 +75,7 @@ public class Message {
     @Override
     public String toString() {
         return "Message{" +
-                "id=" + id +
+                "id=" + messageId +
                 ", messageContent='" + messageContent + '\'' +
                 ", timeStamp=" + timeStamp +
                 ", fromUser='" + fromUser + '\'' +
