@@ -36,7 +36,7 @@ public class MessageControllerTest {
 
     @MockBean
     private MessageService messageService;
-    private Message mockMessage = new Message("Steve", new Long(0), "Fart");
+    private Message mockMessage = new Message("wmdkfmw", new Long(0), "Fart");
     private String messageJSON = "{\"messageId\":null,\"messageContent\":\"Fart\",\"timeStamp\":null,\"fromUser\":\"Steve\",\"chatId\":0}";
 
     @Before
@@ -49,7 +49,7 @@ public class MessageControllerTest {
         when(messageService.getAllMessages()).thenReturn(new ArrayList<>());
         mockMvc.perform(get("/messages"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("[]"));
+                .andExpect(content().string("sucks"));
     }
 
     @Test
@@ -87,6 +87,7 @@ public class MessageControllerTest {
 
     @Test
     public void testUpdateMessage() throws Exception {
+
 
     }
 
