@@ -51,13 +51,13 @@ public class UserController {
         if(userService.addUser(user).equals(null)) return new ResponseEntity<>(HttpStatus.IM_USED);
 
         HttpHeaders responseHeaders = new HttpHeaders();
-        URI newMessageUri = ServletUriComponentsBuilder.fromCurrentRequest()
+        URI newUserUri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{userName}")
                 .buildAndExpand(user.getUserName())
                 .toUri();
-        responseHeaders.setLocation(newMessageUri);
+        responseHeaders.setLocation(newUserUri);
 
-        return new ResponseEntity<>(user ,HttpStatus.CREATED);
+        return new ResponseEntity<>(responseHeaders ,HttpStatus.CREATED);
     }
 
     @DeleteMapping("/users/{userName}")

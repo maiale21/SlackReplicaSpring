@@ -91,13 +91,13 @@ public class UserControllerTest {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/users")
                 .accept(MediaType.APPLICATION_JSON)
-                .content(mockUser2.toString())
+                .content("{\"userName\":\"merin\",\"password\":\"password\",\"email\":\"merin@gmail.com\"}")
                 .contentType(MediaType.APPLICATION_JSON);
 
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
         Assert.assertEquals(HttpStatus.CREATED.value(), response.getStatus());
-        Assert.assertEquals("http://localhost/users/", response.getHeader(HttpHeaders.LOCATION));
+        Assert.assertEquals("http://localhost/users/merin", response.getHeader(HttpHeaders.LOCATION));
     }
 
     @Test
