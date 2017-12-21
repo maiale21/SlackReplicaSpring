@@ -36,28 +36,38 @@ public class MessageControllerTest {
 
     @MockBean
     private MessageService messageService;
-    private Message mockMessage = new Message("Steve", new Long(0), "Fart");
-    private String messageJSON = "{\"messageId\":null,\"messageContent\":\"Fart\",\"timeStamp\":null,\"fromUser\":\"Steve\",\"chatId\":0}";
+    private Message mockMessage = new Message();
+    private String messageJSON;
 
     @Before
-    public void setUp(){
-
+    public void setUp() {
+        mockMessage = new Message("Steve", 0L, "Hello");
+        messageJSON = "{\"messageId\":1,\"messageContent\":\"Hello\",\"timeStamp\":null,\"fromUser\":\"Steve\",\"chatId\":0}";
+        mockMessage.setMessageId(1L);
     }
 
     @Test
     public void testGetAllMessages() throws Exception {
         when(messageService.getAllMessages()).thenReturn(new ArrayList<>());
-        mockMvc.perform(get("/messages"))
+        mockMvc.perform(get("/messages/"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("[]"));
     }
 
     @Test
     public void testGetMessage() throws Exception {
-        when(messageService.getMessageById(Mockito.anyLong())).thenReturn(mockMessage);
+        Mockito.when(messageService.getMessageById(Mockito.anyLong())).thenReturn(mockMessage);
         mockMvc.perform(MockMvcRequestBuilders.get("/messages/1")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(content().string(messageJSON));
+    }
+
+    @Test
+    public void testGetMessageToBelNull() throws Exception {
+        Mockito.when(messageService.getMessageById(Mockito.anyLong())).thenReturn(null);
+        mockMvc.perform(MockMvcRequestBuilders.get("/messages/1")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
     }
 
     @Test
@@ -72,13 +82,14 @@ public class MessageControllerTest {
         MvcResult result = mockMvc.perform(requestBuilder).andReturn();
         MockHttpServletResponse response = result.getResponse();
         Assert.assertEquals(HttpStatus.CREATED.value(), response.getStatus());
-        Assert.assertEquals("http://localhost/messages/", response.getHeader(HttpHeaders.LOCATION));
+        Assert.assertEquals("http://localhost/messages/1", response.getHeader(HttpHeaders.LOCATION));
     }
+
 
     @Test
     public void testDeleteMessage() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders
-                .delete("/messages/" + Mockito.anyInt())
+                .delete("/messages/" + Mockito.anyLong())
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
@@ -87,9 +98,15 @@ public class MessageControllerTest {
 
     @Test
     public void testUpdateMessage() throws Exception {
+        when(messageService.getMessageById(Mockito.anyLong())).thenReturn(mockMessage);
+        mockMvc.perform(MockMvcRequestBuilders
+                .put("/messages/1")
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(messageJSON))
+                .andExpect(status().isOk());
 
     }
-
 
 }
 

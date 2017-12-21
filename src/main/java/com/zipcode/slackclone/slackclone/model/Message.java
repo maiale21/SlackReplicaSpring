@@ -48,6 +48,10 @@ public class Message {
         return messageId;
     }
 
+    public void setMessageId(Long messageId) {
+        this.messageId = messageId;
+    }//for testing
+
     public String getMessageContent() {
         return messageContent;
     }

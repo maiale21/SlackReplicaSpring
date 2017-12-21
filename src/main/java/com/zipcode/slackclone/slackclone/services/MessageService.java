@@ -15,10 +15,12 @@ public class MessageService {
     private MessageRepository messageRepository;
 
     public List<Message> getAllMessages(){
+
         return messageRepository.findAll();
     }
 
     public Message getMessageById(Long messageId){
+
         return messageRepository.findOne(messageId);
     }
 
