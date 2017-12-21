@@ -26,7 +26,7 @@ public class User {
         this.userName = userName;
         this.password = password;
         this.email = email;
-        this.profile = new Profile();
+        this.profile = new Profile(this);
     }
 
     public String getUserName() {

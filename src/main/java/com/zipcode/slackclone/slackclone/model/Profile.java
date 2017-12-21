@@ -21,8 +21,8 @@ public class Profile {
     @JoinColumn(name = "USER_NAME")
     private User user;
 
-    public Profile(){
-
+    public Profile(User user){
+        this.user = user;
     }
 
     public String getFirstName() {
