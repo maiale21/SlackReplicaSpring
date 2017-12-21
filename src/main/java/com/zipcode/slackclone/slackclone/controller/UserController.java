@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
 
     @Autowired
@@ -33,18 +34,17 @@ public class UserController {
         User toReturn = userService.getUserByUserName(userName);
         logger.info("Getting user by user name: ", toReturn.toString());
         if(toReturn.equals(null)) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        return new ResponseEntity<>(userService.getUserByUserName(userName), HttpStatus.OK);
+        return new ResponseEntity<>(toReturn, HttpStatus.OK);
     }
 
-    @PutMapping("/users/{userName}")
-    public ResponseEntity<Void> updateUser(@PathVariable String userName, @RequestBody User updatedUser){
-        User userToUpdate = userService.getUserByUserName(userName);
-        logger.info("Update user info from: ", userToUpdate.toString());
-        logger.info("Updating user info to: ", updatedUser.toString());
-        if(userToUpdate.equals(null)) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        userService.updateUser(userName, updatedUser);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+//    @PutMapping("/users/{userName}")
+//    public ResponseEntity<Void> updateUserEmail(@PathVariable String userName, @RequestBody String newEmail){
+//        User userToUpdate = userService.getUserByUserName(userName);
+//        logger.info("Update user email from: ", userToUpdate.getEmail());
+//        logger.info("Updating user email to: ", newEmail);
+//        if(userService.updateUserEmail(userName, newEmail)) return new ResponseEntity<>(HttpStatus.OK);
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
 
     @PostMapping("/users")
     public ResponseEntity<User> addUser(@RequestBody User user){

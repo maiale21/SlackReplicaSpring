@@ -36,10 +36,10 @@ public class UserService {
     }
 
 
-    public boolean updateUser(String userName, User newUser){
-        User tempUser = getUserByUserName(userName);
-        if (tempUser != null){
-            userRepository.save(newUser);
+    public boolean updateUserEmail(String userName, String newEmail){
+        User toChange = getUserByUserName(userName);
+        if (checkUserNameExists(toChange)){
+            toChange.setEmail(newEmail);
             return true;
         }return false;
     }

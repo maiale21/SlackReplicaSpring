@@ -6,6 +6,9 @@ import com.zipcode.slackclone.slackclone.repository.UserRepository;
 import com.zipcode.slackclone.slackclone.services.UserService;
 import org.junit.*;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class UserServiceTest {
 
     private UserService userService;
@@ -13,16 +16,26 @@ public class UserServiceTest {
     private User user2;
     private Message message1;
     private Message message2;
+    private ArrayList<User> userArray;
 
     @Before
-    private void setUp(){
+    public void setUp(){
         userService = new UserService();
         user1 = new User("donald", "password1", "donald@gmail.com");
         user2 = new User("merin", "password2", "merin@gmail.com");
         message1 = new Message("merin", "hi donald");
         message2 = new Message("donald", "hi merin");
+        userArray = new ArrayList<>();
     }
 
-//    @Test
-//    public void
+    @Test
+    public void getAllUser(){
+        userArray.add(user1);
+        userArray.add(user2);
+        int expected = 2;
+
+        int actual = userArray.size();
+
+        Assert.assertEquals(expected, actual);
+    }
 }
