@@ -37,14 +37,14 @@ public class UserController {
         return new ResponseEntity<>(toReturn, HttpStatus.OK);
     }
 
-//    @PutMapping("/users/{userName}")
-//    public ResponseEntity<Void> updateUserEmail(@PathVariable String userName, @RequestBody String newEmail){
-//        User userToUpdate = userService.getUserByUserName(userName);
-//        logger.info("Update user email from: ", userToUpdate.getEmail());
-//        logger.info("Updating user email to: ", newEmail);
-//        if(userService.updateUserEmail(userName, newEmail)) return new ResponseEntity<>(HttpStatus.OK);
-//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-//    }
+    @PutMapping("/users/{userName}")
+    public ResponseEntity<User> updateUseru(@PathVariable String userName, @RequestBody User user){
+        User userToUpdate = userService.getUserByUserName(userName);
+        logger.info("Update user from: ", userToUpdate.getEmail());
+        logger.info("Updating user email to: ", user);
+        if(userService.updateUser(user)) return new ResponseEntity<>(user ,HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 
     @PostMapping("/users")
     public ResponseEntity<User> addUser(@RequestBody User user){
@@ -62,7 +62,10 @@ public class UserController {
 
     @DeleteMapping("/users/{userName}")
     public ResponseEntity<Void> deleteUser(@PathVariable String userName){
-        if(userService.deleteUser(userName)) return new ResponseEntity<>(HttpStatus.OK);
+        if(userService.deleteUser(userName)) {
+            logger.info("Deleting a user");
+            return new ResponseEntity<>(HttpStatus.OK);}
+            logger.info("User deletion attempt was made, but did not complete.");
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -35,18 +35,18 @@ public class UserService {
         return user;
     }
 
-
-    public boolean updateUserEmail(String userName, String newEmail){
-        User toChange = getUserByUserName(userName);
-        if (checkUserNameExists(toChange)){
-            toChange.setEmail(newEmail);
-            return true;
-        }return false;
-    }
-
     public boolean deleteUser(String userName){
         if(checkUserNameExists(getUserByUserName(userName))) {
             userRepository.delete(userName);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean updateUser(User userToChange) {
+        if(checkUserNameExists(userToChange)) {
+            userRepository.delete(userToChange);
+            userRepository.save(userToChange);
             return true;
         }
         return false;
