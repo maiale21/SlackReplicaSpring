@@ -48,6 +48,7 @@ public class UserController {
 
     @PostMapping("/users")
     public ResponseEntity<User> addUser(@RequestBody User user){
+        System.out.println("test");
         if(userService.addUser(user).equals(null)) return new ResponseEntity<>(HttpStatus.IM_USED);
 
         HttpHeaders responseHeaders = new HttpHeaders();

@@ -1,27 +1,39 @@
 package com.zipcode.slackclone.slackclone.controller;
 
+import com.zipcode.slackclone.slackclone.model.Message;
 import com.zipcode.slackclone.slackclone.model.User;
 import com.zipcode.slackclone.slackclone.services.LoginService;
+import com.zipcode.slackclone.slackclone.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class LoginController {
     @Autowired
     LoginService loginService;
+    @Autowired
+    UserService userService;
 
-    @RequestMapping(value = "/login" , method = RequestMethod.GET)
-    public User userLogin(@RequestParam(value = "userName") String userName
-            , @RequestParam (value = "password") String password){
-        System.out.println("hello user");
-        return loginService.userLogin(userName,password);
-    }
-    @RequestMapping("/hello")
-    public String hello(){
-        return loginService.hello();
+    @PostMapping ("/userLogin")
+    public ResponseEntity<User> userLogin(@RequestBody User user){
+        String userName = user.getUserName();
+        String password = user.getPassword();
+        User user1 = userService.getUserByUserName(userName);
+        if(user1 == null){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        else{
+            if(loginService.passwordMatch(userName,password)){
+                return new ResponseEntity<>(user1,HttpStatus.ACCEPTED);
+            }
+            else {
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            }
+        }
     }
 
 }

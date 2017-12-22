@@ -12,26 +12,12 @@ public class LoginService {
     @Inject
     UserRepository userRepository;
 
-    public User userLogin(String userName, String password){
-        String userName1;
-        String password1;
-        userName1 = userRepository.findOne(userName).getUserName();
-        password1 = userRepository.findOne(password).getPassword();
-        System.out.println("2nd test");
-        if(userName.equals(userName1)){
-            if(password.equals(password1)){
-                return userRepository.getOne(userName);
+    public boolean passwordMatch(String userName, String password) {
+        String password1 = userRepository.findOne(userName).getPassword();
+        if (password.equals(password1)) {
+            return true;
             }
-            else {
-                userRepository.findOne(userName).setPassword("abcABC");
-                return userRepository.getOne(userName);
-            }
-        }
-        else{
-            return null;
+            return false;
         }
     }
-    public String hello(){
-        return "Hello";
-    }
-}
+
